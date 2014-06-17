@@ -4,16 +4,20 @@ S = length(te_data);
 narcs=0;
 nwrong = 0;
 
+v0 = te_data{1}.v;
+vlength = (length(v0)+1)^2;
 for s = 1:S,
     arcs = te_data{s};
     T = length(arcs);
 
     narcs = narcs + T -1;
-    pred_arcs = [];
+    pred_arcs = zeros(T*T,vlength);
+    j = 1;
     for fr = 1:T,
         for to = 1:T,
             %    prec_arcs = predict([arcs(to).v arcs(fr).v ]) % implement your favorite ML algorithm to predict arc score
-            pred_arcs = [pred_arcs;kron([arcs(to).v 1],[arcs(fr).v 1])];
+            pred_arcs(j,:) = outerproduct([arcs(to).v 1],[arcs(fr).v 1]);
+            j = j+1;
         end
     end
     score = pred_arcs*w;
