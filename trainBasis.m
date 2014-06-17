@@ -39,7 +39,7 @@ for i = 1:it,
                % Train your favorite ML algorithm with correct and wrong
                % arcs
                % train([arcs(hguessed(tok)).v arcs(tok).v],0)
-               % train([arcs(hgold(tok)).v arcs(tok).v],0)
+               % train([arcs(hgold(tok)).v arcs(tok).v],1)
                LOG.nwrong = LOG.nwrong + 1;
             end
         end
