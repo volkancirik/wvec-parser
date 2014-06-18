@@ -5,7 +5,7 @@ LOG.tr_err = [];
 LOG.dev_err = [];
 
 v0 = tr_data{1}.v;
-vlength = (length(v0)*2)^2;
+vlength = (length(v0)*2 +1)^2;
 w = zeros(vlength,1);
 pred_arcs = zeros(10000,vlength);
 
@@ -23,7 +23,7 @@ for i = 1:it,
             for to = 1:T,
 %                prec_arcs = predict([arcs(to).v arcs(fr).v ]) %implement
 %                your favorite ML algorithm to predict arc score
-                pred_arcs(j,:) = outerproduct([arcs(to).v arcs(fr).v],[arcs(to).v arcs(fr).v]); % take outer product, it should correspond to poly kernel degree 2
+                pred_arcs(j,:) = outerproduct([arcs(to).v arcs(fr).v 1],[arcs(to).v arcs(fr).v 1]); % take outer product, it should correspond to poly kernel degree 2
                 j = j+1;
             end
         end
@@ -38,8 +38,8 @@ for i = 1:it,
         for tok = 2:T;
             if hguessed(tok) ~= hgold(tok)
                 
-               w = w + outerproduct([arcs(hgold(tok)).v arcs(tok).v ],[arcs(hgold(tok)).v arcs(tok).v ])';   % Add the correct arc %% already calculated wrong one?
-               w = w - outerproduct([arcs(hguessed(tok)).v arcs(tok).v],[arcs(hguessed(tok)).v arcs(tok).v])';% Subtract the wrong
+               w = w + outerproduct([arcs(hgold(tok)).v arcs(tok).v 1],[arcs(hgold(tok)).v arcs(tok).v 1])';   % Add the correct arc %% already calculated wrong one?
+               w = w - outerproduct([arcs(hguessed(tok)).v arcs(tok).v 1],[arcs(hguessed(tok)).v arcs(tok).v 1])';% Subtract the wrong
                
                % Train your favorite ML algorithm with correct and wrong
                % arcs
